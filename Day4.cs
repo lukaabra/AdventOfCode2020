@@ -11,15 +11,15 @@ namespace AdventOfCode
         public static int SolvePartOne(string filePath)
         {
             string file = File.ReadAllText(filePath);
-            Regex passportRegex = new Regex(@"(((\w+):.+)( |\n)?)+");
+            Regex passportRegex = new Regex(@"(((\w+):.+)( |\n)?)+", RegexOptions.IgnoreCase);
 
-            Regex iyrRegex = new Regex(@"(iyr:\d{4})");
-            Regex eyrRegex = new Regex(@"(eyr:\d{4})");
-            Regex byrRegex = new Regex(@"(byr:\d{4})");
-            Regex eclRegex = new Regex(@"(ecl:\w{3})");
-            Regex hgtRegex = new Regex(@"(hgt:\d{2,3}cm|in)");
-            Regex hclRegex = new Regex(@"(hcl:\#[0-9a-fA-F]{6})");
-            Regex pidRegex = new Regex(@"(pid:\d{9})");
+            Regex iyrRegex = new Regex(@"(iyr:.*)");
+            Regex eyrRegex = new Regex(@"(eyr:.*)");
+            Regex byrRegex = new Regex(@"(byr:.*)");
+            Regex eclRegex = new Regex(@"(ecl:.*)");
+            Regex hgtRegex = new Regex(@"(hgt:.*)");
+            Regex hclRegex = new Regex(@"(hcl:.*)");
+            Regex pidRegex = new Regex(@"(pid:.*)");
 
             MatchCollection passportMatches = passportRegex.Matches(file);
             int validPassports = 0;
@@ -49,8 +49,8 @@ namespace AdventOfCode
             Regex eyrRegex = new Regex(@"(eyr:(202[0-9]|2030]))");
             Regex byrRegex = new Regex(@"(byr:(19[2-9][0-9]|200[0-2]))");
             Regex eclRegex = new Regex(@"(ecl:(amb|blu|brn|gry|grn|hzl|oth))");
-            Regex hgtRegex = new Regex(@"(hgt:((1[5-8][0-9]|19[0-3])cm|(59|6[0-9]|7[0-6])in))");
-            Regex hclRegex = new Regex(@"(hcl:\#[0-9a-fA-F]{6})");
+            Regex hgtRegex = new Regex(@"(hgt:(((1[5-8][0-9]|19[0-3])cm)|((59|6[0-9]|7[0-6])in)))");
+            Regex hclRegex = new Regex(@"(hcl:\#[0-9a-f]{6})");
             Regex pidRegex = new Regex(@"(pid:\d{9})");
 
             MatchCollection passportMatches = passportRegex.Matches(file);
