@@ -5,6 +5,7 @@
 
 # Ignoring input files
 *.txt
+*.py
 
 # User-specific files
 *.rsuser
