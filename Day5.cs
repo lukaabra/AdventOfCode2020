@@ -13,62 +13,39 @@ namespace AdventOfCode
             string[] seats = File.ReadAllText(filePath).Split('\n');
             seats = seats.Take(seats.Count() - 1).ToArray();
 
-            int highestSeatID = 0;
+            List<int> seatIDs = new List<int>();
 
-            foreach (string seat in seats)
+            foreach (var seat in seats)
             {
-                int low = 0;
-                int high = 127;
-                int mid = (low + high) / 2;
+                string binaryRow = "";
+                string binaryCol = "";
 
-                // Find row
-                for (int i = 0; i < 7; i++)
+                for (int i = 0; i < seat.Length; i++)
                 {
-                    mid = (low + high) / 2;
-
                     switch (seat[i])
                     {
                         case 'F':
-                            high = mid;
+                            binaryRow += '0';
                             break;
                         case 'B':
-                            low = mid + 1;
-                            break;
-                    }
-                }
-
-                int rowNum = mid;
-
-                low = 0;
-                high = 7;
-
-                // Find column
-                for (int i = 7; i < 10; i++)
-                {
-                    mid = (low + high) / 2;
-
-                    switch (seat[i])
-                    {
-                        case 'R':
-                            low = mid + 1;
+                            binaryRow += '1';
                             break;
                         case 'L':
-                            high = mid;
+                            binaryCol += '0';
+                            break;
+                        case 'R':
+                            binaryCol += '1';
                             break;
                     }
                 }
 
-                int colNum = mid == low ? low : high;
-                int seatID = rowNum * 8 + colNum;
+                int rowID = Convert.ToInt32(binaryRow, 2);
+                int colID = Convert.ToInt32(binaryCol, 2);
 
-                Console.WriteLine($"{seatID}   {rowNum}   {colNum}");
-                
-                if (seatID > highestSeatID)
-                    highestSeatID = seatID;
+                seatIDs.Add(rowID * 8 + colID);
             }
 
-            return highestSeatID;
-
+            return seatIDs.Max(t => t);
         }
 
         public static int SolvePartTwo(string filePath)
@@ -76,67 +53,42 @@ namespace AdventOfCode
             string[] seats = File.ReadAllText(filePath).Split('\n');
             seats = seats.Take(seats.Count() - 1).ToArray();
 
-            List<int> seatNums = new List<int>();
+            List<int> seatIDs = new List<int>();
 
-            foreach (string seat in seats)
+            foreach (var seat in seats)
             {
-                int low = 0;
-                int high = 127;
-                int mid = (low + high) / 2;
+                string binaryRow = "";
+                string binaryCol = "";
 
-                // Find row
-                for (int i = 0; i < 7; i++)
+                for (int i = 0; i < seat.Length; i++)
                 {
-                    mid = (low + high) / 2;
-
                     switch (seat[i])
                     {
                         case 'F':
-                            high = mid;
+                            binaryRow += '0';
                             break;
                         case 'B':
-                            low = mid + 1;
-                            break;
-                    }
-                }
-
-                int rowNum = mid;
-
-                low = 0;
-                high = 7;
-
-                // Find column
-                for (int i = 7; i < 10; i++)
-                {
-                    mid = (low + high) / 2;
-
-                    switch (seat[i])
-                    {
-                        case 'R':
-                            low = mid + 1;
+                            binaryRow += '1';
                             break;
                         case 'L':
-                            high = mid;
+                            binaryCol += '0';
+                            break;
+                        case 'R':
+                            binaryCol += '1';
                             break;
                     }
                 }
 
-                int colNum = mid == low ? low : high;
-                int seatID = rowNum * 8 + colNum;
+                int rowID = Convert.ToInt32(binaryRow, 2);
+                int colID = Convert.ToInt32(binaryCol, 2);
 
-                seatNums.Add(seatID);
+                seatIDs.Add(rowID * 8 + colID);
             }
 
-            // Find missing seat
-            seatNums.Sort();
-            var set = new HashSet<int>(seatNums);
-
-            foreach (var item in set)
+            foreach (var seat in seatIDs)
             {
-                if (set.Contains(item - 2) && !set.Contains(item - 1))
-                    return item - 1;
-                else if (set.Contains(item + 2) && !set.Contains(item + 1))
-                    return item + 1;
+                if (seatIDs.Contains(seat + 2) && !seatIDs.Contains(seat + 1))
+                    return seat + 1;
             }
 
             return 0;
